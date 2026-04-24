@@ -1,95 +1,669 @@
 <!DOCTYPE html>
-
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services – Lelani's Beauty Boutique</title>
 
-    <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
-        <meta charset="UTF-8">
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(160deg, #fff8f9 0%, #fff0f3 40%, #fdf6f0 100%);
+      min-height: 100vh;
+    }
 
-        <title>About Us</title>
-        
-    </head>
-    
-    <body>
-        
-        <header>
-            
-            <h1>Our Beauty Services</h1>
-            
-            <nav>
-                
-                <a href="index.html">Home</a>
-                <a href="products.html">Products</a>
-                <a href="services.html">Services</a>
-                <a href="cart.html">Your Cart</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-                
-            </nav>
-            
-        </header>
+    /* ── Hero ── */
+    .services-hero {
+      background: linear-gradient(135deg, #821830 0%, #c9304e 60%, #fb6f92 100%);
+      padding: 52px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .services-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .services-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -40px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .services-hero h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .services-hero p {
+      color: rgba(255,255,255,0.82);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto;
+      font-family: 'Lato', sans-serif;
+      position: relative;
+    }
 
-        <main>
+    /* ── Section labels ── */
+    .section-label {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e8516d;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #ffc2d1, transparent);
+    }
+    .section-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      color: #821830;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      color: #c8a4a4;
+      margin-bottom: 36px;
+    }
 
-<h2>Lelani`s Beauty Boutique</h2>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-<table border="1"
+    /* ── Services Grid ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 64px;
+    }
 
-  <tr>
-  <th>Services</th>
-  <th>Description</th>
-  <th>Price(Pula)</th>
-  </tr>
+    /* ── Service Card ── */
+    .service-card {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(168,50,80,0.07);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp 0.5s ease both;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(168,50,80,0.14);
+    }
+    .service-card:nth-child(1) { animation-delay: 0.05s; }
+    .service-card:nth-child(2) { animation-delay: 0.11s; }
+    .service-card:nth-child(3) { animation-delay: 0.17s; }
+    .service-card:nth-child(4) { animation-delay: 0.23s; }
+    .service-card:nth-child(5) { animation-delay: 0.29s; }
 
-  <tr>
-    <td>Face Scrubbing</td>
-    <td>Deep cleansing exfoliation treatment</td>
-    <td>P200</td>
-  </tr>
+    .service-img-wrap {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      background: #fff0f3;
+    }
+    .service-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .service-card:hover .service-img-wrap img {
+      transform: scale(1.07);
+    }
 
-  <tr>
-    <td>Face steaming</td>
-    <td>Skin detox steaming treatment</td>
-    <td>P180</td>
-  </tr>
+    .service-cat {
+      position: absolute;
+      top: 14px; left: 14px;
+      background: rgba(255,255,255,0.92);
+      color: #c9304e;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.67rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      backdrop-filter: blur(4px);
+      border: 1px solid #ffc2d1;
+    }
 
-  <tr>
-    <td>Natural Glam Makeup</td>
-    <td>Soft everyday makeup look</td>
-    <td>P350</td>
-  </tr>
+    .service-popular {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+    }
 
-  <tr>
-    <td>Full Glam Makeup</td>
-    <td>Full Glam Makeup for events</td>
-    <td>P450</td>
-  </tr>
+    .service-body {
+      padding: 22px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .service-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #821830;
+      margin-bottom: 8px;
+    }
+    .service-desc {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      color: #7a5c5c;
+      line-height: 1.65;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+    .service-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .service-price {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.45rem;
+      color: #c9304e;
+    }
+    .service-price span {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #c8a4a4;
+      margin-right: 2px;
+    }
 
-  <tr>
-    <td>Wedding Makeup</td>
-    <td>Professional bridal makeup</td>
-    <td>P700</td>
-  </tr>
+    .btn-book {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(200,48,78,0.22);
+      transition: all 0.22s ease;
+      white-space: nowrap;
+    }
+    .btn-book:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(200,48,78,0.34);
+      background: linear-gradient(135deg, #e8516d, #a61e3a);
+    }
 
-</table>
+    /* ── Booking Form ── */
+    .booking-section {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 28px;
+      padding: 48px 52px;
+      box-shadow: 0 8px 32px rgba(168,50,80,0.09);
+      margin-bottom: 64px;
+      animation: fadeUp 0.5s ease 0.3s both;
+    }
 
-  <form action="lelanisbeautyboutique@gmail.com" method="post" enctype="text/plain">
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 52px;
+      align-items: start;
+    }
 
-            <label>Name:</label><br>
-            <input type="text" name="name"><br><br>
+    .booking-intro h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: #821830;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .booking-intro p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.92rem;
+      color: #7a5c5c;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
 
-            <label>Email:</label><br>
-            <input type="email" name="email"><br><br>
+    .expect-list {
+      list-style: none;
+      padding: 0; margin: 0;
+    }
+    .expect-list li {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      color: #7a5c5c;
+      padding: 9px 0 9px 32px;
+      position: relative;
+      border-bottom: 1px solid #fff0f3;
+    }
+    .expect-list li:last-child { border-bottom: none; }
+    .expect-list li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: #fb6f92;
+      font-size: 0.65rem;
+      top: 12px;
+    }
+    .expect-list li strong { color: #821830; }
 
-            <label>Message:</label><br>
-            <textarea name="message"></textarea><br><br>
+    .form-row-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .field-group { margin-bottom: 16px; }
+    .field-group label {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.74rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #c9304e;
+      margin-bottom: 7px;
+    }
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      color: #3a2a2a;
+      background: #fff8f9;
+      border: 1.5px solid #ffc2d1;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      appearance: none;
+    }
+    .field-group input:focus,
+    .field-group select:focus,
+    .field-group textarea:focus {
+      border-color: #e8516d;
+      box-shadow: 0 0 0 3px rgba(232,81,109,0.13);
+      background: #fff;
+    }
+    .field-group textarea { resize: vertical; min-height: 100px; }
 
-            <input type="hidden" name="service" value="Face Scrubbing">
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(200,48,78,0.28);
+      transition: all 0.25s ease;
+      margin-top: 8px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(200,48,78,0.38);
+      background: linear-gradient(135deg, #e8516d, #a61e3a);
+    }
 
-            <input type="Book"></button>
+    .booking-success {
+      display: none;
+      text-align: center;
+      padding: 28px 16px;
+    }
+    .booking-success .tick {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, #eaf3de, #c0dd97);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 16px;
+    }
+    .booking-success h4 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      color: #3B6D11;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    .booking-success p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      color: #7a5c5c;
+    }
 
-         </form>
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .booking-section { padding: 32px 28px; }
+      .booking-layout { grid-template-columns: 1fr; gap: 32px; }
+    }
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .form-row-two { grid-template-columns: 1fr; gap: 0; }
+      .booking-section { padding: 24px 18px; border-radius: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <h1>Lelani`s Beauty Boutique</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Lelani`s Beauty Boutique</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+            <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="cart.html">Your Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ── Hero ── -->
+  <div class="services-hero">
+    <h2>Our Beauty Services</h2>
+    <p>Professional treatments and makeup artistry — tailored to make you feel your most beautiful.</p>
+  </div>
+
+  <!-- ── Main ── -->
+  <main class="container" style="max-width: 1080px; padding-top: 52px;">
+
+    <div class="section-label">What we offer</div>
+    <h2 class="section-heading">Choose Your Treatment</h2>
+    <p class="section-sub">All services performed by a trained beauty professional. Walk-ins welcome during working hours.</p>
+
+    <!-- ── Service Cards ── -->
+    <div class="services-grid">
+
+      <!-- Face Scrubbing -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&auto=format&fit=crop" alt="Face Scrubbing" loading="lazy">
+          <span class="service-cat">Skin Care</span>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Face Scrubbing</div>
+          <div class="service-desc">A deep cleansing exfoliation treatment that removes dead skin cells, unclogs pores, and leaves your skin feeling smooth, fresh, and radiant.</div>
+          <div class="service-footer">
+            <div class="service-price"><span>P</span>200</div>
+            <button class="btn-book" onclick="prefillBooking('Face Scrubbing')">Book Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Face Steaming -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&auto=format&fit=crop" alt="Face Steaming" loading="lazy">
+          <span class="service-cat">Skin Care</span>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Face Steaming</div>
+          <div class="service-desc">A relaxing skin detox steaming treatment that opens pores, hydrates the skin, and deeply cleanses to give you a healthy, glowing complexion.</div>
+          <div class="service-footer">
+            <div class="service-price"><span>P</span>180</div>
+            <button class="btn-book" onclick="prefillBooking('Face Steaming')">Book Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Natural Glam Makeup -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&auto=format&fit=crop" alt="Natural Glam Makeup" loading="lazy">
+          <span class="service-cat">Makeup</span>
+          <span class="service-popular">Popular</span>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Natural Glam Makeup</div>
+          <div class="service-desc">A soft, everyday makeup look that enhances your natural beauty — perfect for work, casual outings, or daytime events. Fresh and effortlessly glam.</div>
+          <div class="service-footer">
+            <div class="service-price"><span>P</span>350</div>
+            <button class="btn-book" onclick="prefillBooking('Natural Glam Makeup')">Book Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full Glam Makeup -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop" alt="Full Glam Makeup" loading="lazy">
+          <span class="service-cat">Makeup</span>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Full Glam Makeup</div>
+          <div class="service-desc">A bold, full-coverage look designed for events, graduations, parties, or any occasion where you want to turn heads and feel unforgettable.</div>
+          <div class="service-footer">
+            <div class="service-price"><span>P</span>450</div>
+            <button class="btn-book" onclick="prefillBooking('Full Glam Makeup')">Book Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wedding Glam Makeup -->
+      <div class="service-card">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1594938298603-376cf1863e85?w=600&auto=format&fit=crop" alt="Wedding Glam Makeup" loading="lazy">
+          <span class="service-cat">Bridal</span>
+          <span class="service-popular">✦ Premium</span>
+        </div>
+        <div class="service-body">
+          <div class="service-name">Wedding Glam Makeup</div>
+          <div class="service-desc">Professional bridal makeup crafted to last all day, look stunning in photos, and make you feel like the most beautiful version of yourself on your special day.</div>
+          <div class="service-footer">
+            <div class="service-price"><span>P</span>700</div>
+            <button class="btn-book" onclick="prefillBooking('Wedding Glam Makeup')">Book Now</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Booking Form ── -->
+    <div class="section-label">Ready to treat yourself?</div>
+    <h2 class="section-heading">Book an Appointment</h2>
+    <p class="section-sub">Fill in the form below and we'll confirm via phone or WhatsApp within 24 hours.</p>
+
+    <div class="booking-section" id="bookingSection">
+      <div class="booking-layout">
+
+        <!-- Left intro -->
+        <div class="booking-intro">
+          <h3>What to Expect</h3>
+          <p>We want every visit to feel special. Here's everything you need to know before you book.</p>
+          <ul class="expect-list">
+            <li><strong>Flexible scheduling</strong> — Mon to Sun, from 08:00</li>
+            <li><strong>Walk-ins welcome</strong> — no booking needed for quick services</li>
+            <li><strong>Payment at visit</strong> — pay in Pula when you arrive</li>
+            <li><strong>Confirmation</strong> — we'll call or WhatsApp to confirm your slot</li>
+            <li><strong>Location</strong> — Gaborone, Botswana</li>
+            <li><strong>Questions?</strong> Call <a href="tel:+26775045962" style="color:#c9304e;">+267 750 45962</a></li>
+          </ul>
+        </div>
+
+        <!-- Right form -->
+        <div>
+          <div id="bookingFormWrap">
+            <div class="form-row-two">
+              <div class="field-group">
+                <label for="bfname">First Name</label>
+                <input type="text" id="bfname" placeholder="e.g. Amogelang">
+              </div>
+              <div class="field-group">
+                <label for="blname">Last Name</label>
+                <input type="text" id="blname" placeholder="e.g. Modise">
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="bemail">Email Address</label>
+              <input type="email" id="bemail" placeholder="your@email.com">
+            </div>
+
+            <div class="field-group">
+              <label for="bphone">Phone / WhatsApp</label>
+              <input type="tel" id="bphone" placeholder="+267 7XX XXXXX">
+            </div>
+
+            <div class="field-group">
+              <label for="bservice">Service</label>
+              <select id="bservice">
+                <option value="" disabled selected>Select a service</option>
+                <option value="Face Scrubbing">Face Scrubbing — P200</option>
+                <option value="Face Steaming">Face Steaming — P180</option>
+                <option value="Natural Glam Makeup">Natural Glam Makeup — P350</option>
+                <option value="Full Glam Makeup">Full Glam Makeup — P450</option>
+                <option value="Wedding Glam Makeup">Wedding Glam Makeup — P700</option>
+              </select>
+            </div>
+
+            <div class="form-row-two">
+              <div class="field-group">
+                <label for="bdate">Preferred Date</label>
+                <input type="date" id="bdate">
+              </div>
+              <div class="field-group">
+                <label for="btime">Preferred Time</label>
+                <input type="time" id="btime" min="08:00" max="17:30">
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="bnotes">Additional Notes (optional)</label>
+              <textarea id="bnotes" placeholder="Any special requests, skin sensitivities, or things we should know…"></textarea>
+            </div>
+
+            <p id="bookingError" style="display:none; color:#c9304e; font-family:'Lato',sans-serif; font-size:0.85rem; margin-bottom:12px;"></p>
+
+            <button class="btn-submit" onclick="submitBooking()">Request Appointment</button>
+          </div>
+
+          <!-- Success -->
+          <div class="booking-success" id="bookingSuccess">
+            <div class="tick">✓</div>
+            <h4>Booking Requested!</h4>
+            <p>Thank you! We've received your appointment request and will confirm via phone or WhatsApp within 24 hours.<br><br>
+              Questions? Call us on <a href="tel:+26775045962" style="color:#c9304e;">+267 750 45962</a></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>&copy; 2026 Lelani`s Beauty Boutique. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  <script>
+    // Set minimum date to today
+    document.getElementById('bdate').min = new Date().toISOString().split('T')[0];
+
+    // Clicking "Book Now" pre-selects the service and scrolls to the form
+    function prefillBooking(serviceName) {
+      const select = document.getElementById('bservice');
+      for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === serviceName) {
+          select.selectedIndex = i;
+          break;
+        }
+      }
+      document.getElementById('bookingSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Form validation + submit
+    function submitBooking() {
+      const fname   = document.getElementById('bfname').value.trim();
+      const phone   = document.getElementById('bphone').value.trim();
+      const service = document.getElementById('bservice').value;
+      const date    = document.getElementById('bdate').value;
+      const errEl   = document.getElementById('bookingError');
+
+      if (!fname)   { showErr('Please enter your first name.'); return; }
+      if (!phone)   { showErr('Please enter your phone number so we can confirm your booking.'); return; }
+      if (!service) { showErr('Please select a service.'); return; }
+      if (!date)    { showErr('Please choose a preferred date.'); return; }
+
+      errEl.style.display = 'none';
+
+      const btn = document.querySelector('.btn-submit');
+      btn.textContent = 'Submitting…';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        document.getElementById('bookingFormWrap').style.display = 'none';
+        document.getElementById('bookingSuccess').style.display  = 'block';
+      }, 1200);
+    }
+
+    function showErr(msg) {
+      const el = document.getElementById('bookingError');
+      el.textContent = '⚠ ' + msg;
+      el.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
