@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart – Lelani's Beauty Boutique</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(160deg, #fff8f9 0%, #fff0f3 40%, #fdf6f0 100%);
+      min-height: 100vh;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Hero ── */
+    .cart-hero {
+      background: linear-gradient(135deg, #821830 0%, #c9304e 60%, #fb6f92 100%);
+      padding: 52px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cart-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.11) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .cart-hero h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .cart-hero p {
+      font-family: 'Lato', sans-serif;
+      color: rgba(255,255,255,0.82);
+      font-size: 1rem;
+      position: relative;
+    }
+
+    /* ── Layout ── */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 32px;
+      padding: 48px 0 64px;
+      align-items: start;
+    }
+
+    /* ── Section headings ── */
+    .col-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #821830;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ffe0e8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .item-count-badge {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 50px;
+    }
+
+    /* ── Empty state ── */
+    .empty-cart {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 22px;
+      padding: 60px 32px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(168,50,80,0.06);
+      animation: fadeUp 0.5s ease both;
+    }
+    .empty-icon {
+      font-size: 3.5rem;
+      margin-bottom: 18px;
+      opacity: 0.6;
+    }
+    .empty-cart h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #821830;
+      margin-bottom: 10px;
+    }
+    .empty-cart p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.92rem;
+      color: #c8a4a4;
+      margin-bottom: 24px;
+    }
+    .btn-shop {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 13px 30px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(200,48,78,0.28);
+      transition: all 0.22s ease;
+    }
+    .btn-shop:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,48,78,0.38);
+      color: #fff;
+    }
+
+    /* ── Cart items list ── */
+    #cartItemsList { display: flex; flex-direction: column; gap: 14px; }
+
+    .cart-item {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 18px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 3px 12px rgba(168,50,80,0.06);
+      transition: box-shadow 0.2s;
+      animation: fadeUp 0.4s ease both;
+    }
+    .cart-item:hover { box-shadow: 0 6px 20px rgba(168,50,80,0.11); }
+
+    .cart-item-img {
+      width: 72px; height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #fff0f3;
+    }
+
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #821830;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-item-cat {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #c8a4a4;
+    }
+
+    /* Quantity controls */
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: #fff8f9;
+      border: 1.5px solid #ffc2d1;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+    .qty-btn {
+      width: 34px; height: 34px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #c9304e;
+      font-weight: 700;
+      transition: background 0.15s;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .qty-btn:hover { background: #fff0f3; }
+    .qty-display {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #821830;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    /* Item price */
+    .cart-item-price {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #c9304e;
+      white-space: nowrap;
+      min-width: 60px;
+      text-align: right;
+    }
+    .cart-item-price span {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      color: #c8a4a4;
+    }
+
+    /* Remove button */
+    .btn-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #c8a4a4;
+      font-size: 1.1rem;
+      padding: 4px 6px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-remove:hover { color: #c9304e; background: #fff0f3; }
+
+    /* ── Order Summary card ── */
+    .summary-card {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 22px;
+      padding: 28px 28px;
+      box-shadow: 0 4px 18px rgba(168,50,80,0.08);
+      animation: fadeUp 0.5s ease 0.1s both;
+      position: sticky;
+      top: 24px;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.92rem;
+      color: #7a5c5c;
+      padding: 9px 0;
+      border-bottom: 1px solid #fff0f3;
+    }
+    .summary-line:last-of-type { border-bottom: none; }
+    .summary-line.total {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #821830;
+      border-top: 2px solid #ffe0e8;
+      border-bottom: none;
+      margin-top: 6px;
+      padding-top: 14px;
+    }
+    .summary-line .val { font-weight: 700; color: #821830; }
+    .summary-line.total .val { color: #c9304e; font-size: 1.3rem; }
+
+    /* Payment note */
+    .payment-note {
+      background: linear-gradient(135deg, #fff0f3, #ffedf0);
+      border: 1px solid #ffc2d1;
+      border-left: 4px solid #e8516d;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82rem;
+      color: #7a5c5c;
+      line-height: 1.6;
+    }
+    .payment-note strong {
+      display: block;
+      color: #821830;
+      font-size: 0.75rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    /* Checkout button */
+    .btn-checkout {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(200,48,78,0.28);
+      transition: all 0.25s ease;
+      margin-bottom: 12px;
+    }
+    .btn-checkout:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(200,48,78,0.38);
+      background: linear-gradient(135deg, #e8516d, #a61e3a);
+    }
+    .btn-checkout:disabled {
+      background: #e0c8cc;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-continue {
+      width: 100%;
+      padding: 12px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      border: 1.5px solid #ffc2d1;
+      border-radius: 50px;
+      cursor: pointer;
+      background: transparent;
+      color: #c9304e;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .btn-continue:hover {
+      background: #fff0f3;
+      color: #821830;
+    }
+
+    /* ── Checkout form (shown after clicking Place Order) ── */
+    .checkout-form-wrap {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 22px;
+      padding: 32px;
+      box-shadow: 0 4px 18px rgba(168,50,80,0.08);
+      margin-top: 24px;
+      display: none;
+      animation: fadeUp 0.4s ease both;
+    }
+    .checkout-form-wrap h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #821830;
+      margin-bottom: 6px;
+    }
+    .checkout-form-wrap .sub {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      color: #c8a4a4;
+      margin-bottom: 22px;
+    }
+
+    .form-row-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .field-group { margin-bottom: 16px; }
+    .field-group label {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.73rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #c9304e;
+      margin-bottom: 7px;
+    }
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+      width: 100%;
+      padding: 11px 15px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.93rem;
+      color: #3a2a2a;
+      background: #fff8f9;
+      border: 1.5px solid #ffc2d1;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+    .field-group input:focus,
+    .field-group select:focus,
+    .field-group textarea:focus {
+      border-color: #e8516d;
+      box-shadow: 0 0 0 3px rgba(232,81,109,0.13);
+      background: #fff;
+    }
+
+    .btn-place-order {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(200,48,78,0.28);
+      transition: all 0.25s ease;
+      margin-top: 8px;
+    }
+    .btn-place-order:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(200,48,78,0.38);
+    }
+
+    /* ── Order success ── */
+    .order-success {
+      display: none;
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 22px;
+      padding: 56px 32px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(168,50,80,0.07);
+      animation: fadeUp 0.5s ease both;
+    }
+    .success-tick {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, #eaf3de, #c0dd97);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 20px;
+    }
+    .order-success h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #3B6D11;
+      margin-bottom: 10px;
+    }
+    .order-success p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.92rem;
+      color: #7a5c5c;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Recommended products ── */
+    .recommended-section { margin-top: 52px; }
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .rec-card {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(168,50,80,0.06);
+      transition: transform 0.25s, box-shadow 0.25s;
+      text-decoration: none;
+      display: block;
+      animation: fadeUp 0.5s ease both;
+    }
+    .rec-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(168,50,80,0.12);
+    }
+    .rec-card img {
+      width: 100%; height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+    .rec-card-body {
+      padding: 14px 16px;
+    }
+    .rec-card-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #821830;
+      margin-bottom: 4px;
+    }
+    .rec-card-price {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #c9304e;
+    }
+    .rec-card-price span { color: #c8a4a4; font-size: 0.75rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .summary-card { position: static; }
+    }
+    @media (max-width: 540px) {
+      .cart-item { flex-wrap: wrap; }
+      .cart-item-img { width: 56px; height: 56px; }
+      .form-row-two { grid-template-columns: 1fr; gap: 0; }
+      .rec-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <h1>Lelani`s Beauty Boutique</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Lelani`s Beauty Boutique</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link active" href="cart.html">Your Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ── Hero ── -->
+  <div class="cart-hero">
+    <h2>Your Cart</h2>
+    <p id="heroSub">Review your selected products before placing your order.</p>
+  </div>
+
+  <!-- ── Main ── -->
+  <main class="container" style="max-width: 1060px;">
+
+    <!-- Order success (shown after order placed) -->
+    <div class="order-success" id="orderSuccess" style="margin-top:48px; margin-bottom:48px;">
+      <div class="success-tick">✓</div>
+      <h3>Order Placed!</h3>
+      <p>Thank you for your order. We'll contact you via phone or WhatsApp to confirm delivery details. Payment is accepted at delivery — no online payment needed.</p>
+      <a href="products.html" class="btn-shop">Continue Shopping</a>
+    </div>
+
+    <!-- Cart layout (hidden after order) -->
+    <div class="cart-layout" id="cartLayout">
+
+      <!-- LEFT: items -->
+      <div>
+        <div class="col-heading">
+          Your Items
+          <span class="item-count-badge" id="itemCountBadge">0 items</span>
+        </div>
+
+        <!-- Empty state -->
+        <div class="empty-cart" id="emptyCart">
+          <div class="empty-icon">🛒</div>
+          <h3>Your cart is empty</h3>
+          <p>Looks like you haven't added anything yet.<br>Browse our products and find something you love.</p>
+          <a href="products.html" class="btn-shop">Shop Products</a>
+        </div>
+
+        <!-- Items list -->
+        <div id="cartItemsList"></div>
+
+        <!-- Clear cart link -->
+        <div id="clearWrap" style="display:none; margin-top:16px; text-align:right;">
+          <button onclick="clearCart()" style="
+            font-family:'Lato',sans-serif; font-size:0.8rem; font-weight:700;
+            letter-spacing:0.07em; text-transform:uppercase;
+            background:none; border:none; color:#c8a4a4; cursor:pointer;
+            transition:color 0.2s; padding:4px 0;">
+            ✕ Clear All Items
+          </button>
+        </div>
+
+        <!-- Checkout form (slides in when Proceed to Order clicked) -->
+        <div class="checkout-form-wrap" id="checkoutForm">
+          <h3>Delivery Details</h3>
+          <p class="sub">Fill in your details and we'll confirm your order within 24 hours.</p>
+
+          <div class="form-row-two">
+            <div class="field-group">
+              <label for="cfname">First Name</label>
+              <input type="text" id="cfname" placeholder="e.g. Amogelang">
+            </div>
+            <div class="field-group">
+              <label for="clname">Last Name</label>
+              <input type="text" id="clname" placeholder="e.g. Modise">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="cphone">Phone / WhatsApp</label>
+            <input type="tel" id="cphone" placeholder="+267 7XX XXXXX">
+          </div>
+
+          <div class="field-group">
+            <label for="cemail">Email Address (optional)</label>
+            <input type="email" id="cemail" placeholder="your@email.com">
+          </div>
+
+          <div class="field-group">
+            <label for="carea">Area / Suburb in Gaborone</label>
+            <input type="text" id="carea" placeholder="e.g. Gaborone West, Tlokweng...">
+          </div>
+
+          <div class="field-group">
+            <label for="cnotes">Order Notes (optional)</label>
+            <textarea id="cnotes" style="min-height:80px;" placeholder="Any special instructions or requests…"></textarea>
+          </div>
+
+          <p id="orderError" style="display:none; color:#c9304e; font-family:'Lato',sans-serif; font-size:0.85rem; margin-bottom:12px;"></p>
+
+          <button class="btn-place-order" onclick="placeOrder()">Place Order</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: summary -->
+      <div>
+        <div class="summary-card" id="summaryCard">
+          <div class="col-heading" style="margin-bottom:16px;">Order Summary</div>
+
+          <div class="summary-line">
+            <span>Subtotal</span>
+            <span class="val" id="summarySubtotal">P0</span>
+          </div>
+          <div class="summary-line">
+            <span>Delivery</span>
+            <span class="val" style="color:#3B6D11;">Free</span>
+          </div>
+          <div class="summary-line">
+            <span>Discount</span>
+            <span class="val" id="summaryDiscount">—</span>
+          </div>
+          <div class="summary-line total">
+            <span>Total</span>
+            <span class="val" id="summaryTotal">P0</span>
+          </div>
+
+          <div class="payment-note">
+            <strong>💳 Payment at Delivery</strong>
+            We accept payment in Pula when your order is delivered or collected. No online payment required.
+          </div>
+
+          <button class="btn-checkout" id="checkoutBtn" onclick="showCheckout()" disabled>
+            Proceed to Order →
+          </button>
+          <a href="products.html" class="btn-continue">← Continue Shopping</a>
+
+          <!-- New client promo -->
+          <div style="margin-top:20px; padding:14px 16px; background:linear-gradient(135deg,#fff0f3,#ffedf0); border-radius:12px; border:1px solid #ffc2d1; text-align:center;">
+            <div style="font-family:'Lato',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.09em; text-transform:uppercase; color:#c9304e; margin-bottom:4px;">🎁 New Clients</div>
+            <div style="font-family:'Playfair Display',Georgia,serif; font-size:0.95rem; color:#821830; font-style:italic;">Enjoy 30% off your first order</div>
+            <div style="font-family:'Lato',sans-serif; font-size:0.78rem; color:#c8a4a4; margin-top:4px;">Mention this when we contact you to confirm.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /cart-layout -->
+
+    <!-- ── Recommended ── -->
+    <div class="recommended-section" id="recommendedSection">
+      <div style="font-family:'Lato',sans-serif; font-weight:700; font-size:0.73rem; letter-spacing:0.14em; text-transform:uppercase; color:#e8516d; margin-bottom:8px; display:flex; align-items:center; gap:10px;">
+        You might also like
+        <span style="flex:1; height:1px; background:linear-gradient(to right,#ffc2d1,transparent);"></span>
+      </div>
+      <h2 style="font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:1.5rem; color:#821830; margin-bottom:4px;">Popular Products</h2>
+      <p style="font-family:'Lato',sans-serif; font-size:0.88rem; color:#c8a4a4; margin-bottom:0;">Add more to your order before you check out.</p>
+
+      <div class="rec-grid">
+        <a href="products.html" class="rec-card" style="animation-delay:0.05s;">
+          <img src="https://images.unsplash.com/photo-1586495777744-4e6232bf2f9b?w=400&auto=format&fit=crop" alt="Matte Lipstick">
+          <div class="rec-card-body">
+            <div class="rec-card-name">Matte Lipstick</div>
+            <div class="rec-card-price"><span>P</span>70</div>
+          </div>
+        </a>
+        <a href="products.html" class="rec-card" style="animation-delay:0.11s;">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&auto=format&fit=crop" alt="Eyeshadow Palette">
+          <div class="rec-card-body">
+            <div class="rec-card-name">Eyeshadow Palette</div>
+            <div class="rec-card-price"><span>P</span>250</div>
+          </div>
+        </a>
+        <a href="products.html" class="rec-card" style="animation-delay:0.17s;">
+          <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&auto=format&fit=crop" alt="Moisturizer">
+          <div class="rec-card-body">
+            <div class="rec-card-name">Moisturizer</div>
+            <div class="rec-card-price"><span>P</span>180</div>
+          </div>
+        </a>
+        <a href="products.html" class="rec-card" style="animation-delay:0.23s;">
+          <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&auto=format&fit=crop" alt="Makeup Remover">
+          <div class="rec-card-body">
+            <div class="rec-card-name">Makeup Remover</div>
+            <div class="rec-card-price"><span>P</span>100</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>&copy; 2026 Lelani`s Beauty Boutique. All rights reserved. &nbsp;|&nbsp;
+      <a href="tel:+26775045962" style="color:rgba(255,255,255,0.65); text-decoration:none;">+267 750 45962</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:lelanibeautyboutique@gmail.com" style="color:rgba(255,255,255,0.65); text-decoration:none;">lelanibeautyboutique@gmail.com</a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  <script>
+    /* ══════════════════════════════════════════
+       CART DATA
+       Products array mirrors products.html
+    ══════════════════════════════════════════ */
+    const PRODUCTS = [
+      { id: 'lipstick',     name: 'Matte Lipstick',    price: 70,  img: 'https://images.unsplash.com/photo-1586495777744-4e6232bf2f9b?w=200&auto=format&fit=crop', cat: 'Makeup' },
+      { id: 'eyeshadow',    name: 'Eyeshadow Palette', price: 250, img: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=200&auto=format&fit=crop', cat: 'Makeup' },
+      { id: 'foundation',   name: 'Foundation',        price: 220, img: 'https://images.unsplash.com/photo-1631214499429-c3eaff5f3168?w=200&auto=format&fit=crop', cat: 'Makeup' },
+      { id: 'moisturizer',  name: 'Moisturizer',       price: 180, img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=200&auto=format&fit=crop', cat: 'Skin Care' },
+      { id: 'scrub',        name: 'Face Scrub',        price: 180, img: 'https://images.unsplash.com/photo-1571782742078-43a7b61f2491?w=200&auto=format&fit=crop', cat: 'Skin Care' },
+      { id: 'remover',      name: 'Makeup Remover',    price: 100, img: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=200&auto=format&fit=crop', cat: 'Skin Care' },
+    ];
+
+    /* ── In-memory cart (initialised from sessionStorage if available) ── */
+    let cart = [];
+    try {
+      const saved = sessionStorage.getItem('lelani_cart');
+      if (saved) cart = JSON.parse(saved);
+    } catch(e) { cart = []; }
+
+    function saveCart() {
+      try { sessionStorage.setItem('lelani_cart', JSON.stringify(cart)); } catch(e) {}
+    }
+
+    /* ── Render the cart ── */
+    function renderCart() {
+      const listEl    = document.getElementById('cartItemsList');
+      const emptyEl   = document.getElementById('emptyCart');
+      const clearWrap = document.getElementById('clearWrap');
+      const checkBtn  = document.getElementById('checkoutBtn');
+      const badge     = document.getElementById('itemCountBadge');
+
+      listEl.innerHTML = '';
+
+      if (cart.length === 0) {
+        emptyEl.style.display  = 'block';
+        clearWrap.style.display = 'none';
+        checkBtn.disabled = true;
+        badge.textContent = '0 items';
+        updateSummary();
+        return;
+      }
+
+      emptyEl.style.display  = 'none';
+      clearWrap.style.display = 'block';
+      checkBtn.disabled = false;
+
+      const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+      badge.textContent = totalQty === 1 ? '1 item' : totalQty + ' items';
+
+      cart.forEach((item, idx) => {
+        const prod = PRODUCTS.find(p => p.id === item.id) || {};
+        const el = document.createElement('div');
+        el.className = 'cart-item';
+        el.style.animationDelay = (idx * 0.06) + 's';
+        el.innerHTML = `
+          <img class="cart-item-img" src="${prod.img || ''}" alt="${item.name}">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-cat">${prod.cat || ''}</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+            <div class="qty-display">${item.qty}</div>
+            <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+          </div>
+          <div class="cart-item-price"><span>P</span>${(item.price * item.qty).toLocaleString()}</div>
+          <button class="btn-remove" onclick="removeItem(${idx})" title="Remove">✕</button>
+        `;
+        listEl.appendChild(el);
+      });
+
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      document.getElementById('summarySubtotal').textContent = 'P' + subtotal.toLocaleString();
+      document.getElementById('summaryTotal').textContent    = 'P' + subtotal.toLocaleString();
+      document.getElementById('summaryDiscount').textContent = subtotal > 0 ? 'Mention at delivery' : '—';
+    }
+
+    function changeQty(idx, delta) {
+      cart[idx].qty += delta;
+      if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      saveCart();
+      renderCart();
+    }
+
+    function removeItem(idx) {
+      cart.splice(idx, 1);
+      saveCart();
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      saveCart();
+      document.getElementById('checkoutForm').style.display = 'none';
+      renderCart();
+    }
+
+    /* ── Show checkout form ── */
+    function showCheckout() {
+      const form = document.getElementById('checkoutForm');
+      form.style.display = 'block';
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── Place order ── */
+    function placeOrder() {
+      const fname = document.getElementById('cfname').value.trim();
+      const phone = document.getElementById('cphone').value.trim();
+      const area  = document.getElementById('carea').value.trim();
+      const errEl = document.getElementById('orderError');
+
+      if (!fname) { showOrderError('Please enter your first name.'); return; }
+      if (!phone) { showOrderError('Please enter your phone number so we can confirm your order.'); return; }
+      if (!area)  { showOrderError('Please enter your area or suburb for delivery.'); return; }
+
+      errEl.style.display = 'none';
+
+      const btn = document.querySelector('.btn-place-order');
+      btn.textContent = 'Placing order…';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        // Clear cart
+        cart = [];
+        saveCart();
+
+        // Show success, hide layout
+        document.getElementById('cartLayout').style.display = 'none';
+        document.getElementById('recommendedSection').style.display = 'none';
+        document.getElementById('orderSuccess').style.display = 'block';
+        document.getElementById('heroSub').textContent = 'Thank you for your order!';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 1400);
+    }
+
+    function showOrderError(msg) {
+      const el = document.getElementById('orderError');
+      el.textContent = '⚠ ' + msg;
+      el.style.display = 'block';
+    }
+
+    /* ══════════════════════════════════════════
+       DEMO: Pre-load 2 sample items so the cart
+       isn't empty when you first open the page.
+       Remove this block in production.
+    ══════════════════════════════════════════ */
+    if (cart.length === 0) {
+      cart = [
+        { id: 'lipstick',    name: 'Matte Lipstick',    price: 70,  qty: 1 },
+        { id: 'moisturizer', name: 'Moisturizer',        price: 180, qty: 2 },
+      ];
+    }
+
+    /* ── Init ── */
+    renderCart();
+  </script>
+
+</body>
+</html>
