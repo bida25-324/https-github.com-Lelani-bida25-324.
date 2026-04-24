@@ -1,57 +1,603 @@
-<!DOCTYPE html>
-
+  <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us – Lelani's Beauty Boutique</title>
 
-    <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
-        <meta charset="UTF-8">
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(160deg, #fff8f9 0%, #fff0f3 40%, #fdf6f0 100%);
+      min-height: 100vh;
+    }
 
-        <title>About Us</title>
-        
-    </head>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Hero ── */
+    .about-hero {
+      background: linear-gradient(135deg, #821830 0%, #c9304e 60%, #fb6f92 100%);
+      padding: 64px 24px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(255,255,255,0.11) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .about-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -70px; left: -50px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .about-hero h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: #fff;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .about-hero p {
+      font-family: 'Lato', sans-serif;
+      color: rgba(255,255,255,0.82);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+      line-height: 1.7;
+    }
+
+    /* ── Section utilities ── */
+    .section-wrap { padding: 72px 0 64px; }
+    .section-wrap.alt {
+      background: linear-gradient(160deg, #fff0f3 0%, #fff8f9 100%);
+    }
+    .section-label {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.73rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #e8516d;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #ffc2d1, transparent);
+    }
+    .section-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+      color: #821830;
+      margin-bottom: 10px;
+    }
+
+    /* ── Intro / story layout ── */
+    .story-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .story-text p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.97rem;
+      color: #7a5c5c;
+      line-height: 1.85;
+      margin-bottom: 18px;
+    }
+    .story-text p:last-of-type { margin-bottom: 28px; }
+
+    /* Image collage */
+    .story-imgs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 240px 180px;
+      gap: 14px;
+      animation: fadeUp 0.6s ease 0.15s both;
+    }
+    .story-imgs .img-main {
+      grid-column: 1 / 3;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 32px rgba(168,50,80,0.13);
+    }
+    .story-imgs .img-small {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(168,50,80,0.10);
+    }
+    .story-imgs img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .story-imgs .img-main:hover img,
+    .story-imgs .img-small:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ── Values / pillars ── */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .value-card {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 22px;
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(168,50,80,0.07);
+      transition: transform 0.25s, box-shadow 0.25s;
+      animation: fadeUp 0.5s ease both;
+    }
+    .value-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(168,50,80,0.13);
+    }
+    .value-card:nth-child(1) { animation-delay: 0.05s; }
+    .value-card:nth-child(2) { animation-delay: 0.12s; }
+    .value-card:nth-child(3) { animation-delay: 0.19s; }
+    .value-card:nth-child(4) { animation-delay: 0.26s; }
+
+    .value-icon {
+      width: 62px; height: 62px;
+      background: linear-gradient(135deg, #fff0f3, #ffc2d1);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 18px;
+      transition: background 0.2s;
+    }
+    .value-card:hover .value-icon {
+      background: linear-gradient(135deg, #ffc2d1, #fb6f92);
+    }
+    .value-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #821830;
+      margin-bottom: 10px;
+    }
+    .value-desc {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      color: #7a5c5c;
+      line-height: 1.65;
+    }
+
+    /* ── Mission section ── */
+    .mission-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .mission-img {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(168,50,80,0.15);
+      animation: fadeUp 0.6s ease 0.1s both;
+      position: relative;
+    }
+    .mission-img img {
+      width: 100%; height: 440px;
+      object-fit: cover;
+      display: block;
+    }
+    /* Decorative rose circle */
+    .mission-img::before {
+      content: '';
+      position: absolute;
+      bottom: -20px; right: -20px;
+      width: 120px; height: 120px;
+      background: linear-gradient(135deg, #ffc2d1, #fb6f92);
+      border-radius: 50%;
+      z-index: -1;
+    }
+
+    .mission-text { animation: fadeUp 0.6s ease 0.2s both; }
+    .mission-text p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.97rem;
+      color: #7a5c5c;
+      line-height: 1.85;
+      margin-bottom: 18px;
+    }
+
+    /* Mission quote block */
+    .mission-quote {
+      background: linear-gradient(135deg, #fff0f3, #ffedf0);
+      border-left: 4px solid #e8516d;
+      border-radius: 0 14px 14px 0;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .mission-quote p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: #821830;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── Services offered strip ── */
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .offer-pill {
+      background: #fff;
+      border: 1px solid #ffe0e8;
+      border-radius: 16px;
+      padding: 18px 16px;
+      text-align: center;
+      box-shadow: 0 3px 12px rgba(168,50,80,0.06);
+      transition: transform 0.22s, box-shadow 0.22s;
+      text-decoration: none;
+      display: block;
+      animation: fadeUp 0.5s ease both;
+    }
+    .offer-pill:nth-child(1) { animation-delay: 0.04s; }
+    .offer-pill:nth-child(2) { animation-delay: 0.09s; }
+    .offer-pill:nth-child(3) { animation-delay: 0.14s; }
+    .offer-pill:nth-child(4) { animation-delay: 0.19s; }
+    .offer-pill:nth-child(5) { animation-delay: 0.24s; }
+    .offer-pill:nth-child(6) { animation-delay: 0.29s; }
+    .offer-pill:nth-child(7) { animation-delay: 0.34s; }
+    .offer-pill:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 28px rgba(168,50,80,0.12);
+    }
+    .offer-pill .icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .offer-pill .name {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: #821830;
+    }
+
+    /* ── CTA banner ── */
+    .cta-banner {
+      background: linear-gradient(135deg, #821830 0%, #c9304e 55%, #fb6f92 100%);
+      border-radius: 28px;
+      padding: 60px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .cta-banner h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      color: #fff;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .cta-banner p {
+      font-family: 'Lato', sans-serif;
+      color: rgba(255,255,255,0.82);
+      font-size: 1rem;
+      max-width: 440px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+    .btn-cta-white {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 14px 34px;
+      border-radius: 50px;
+      border: 2px solid rgba(255,255,255,0.75);
+      background: transparent;
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s ease;
+      margin: 6px;
+    }
+    .btn-cta-white:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: #fff;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .btn-cta-solid {
+      background: #fff;
+      color: #c9304e;
+      border-color: #fff;
+    }
+    .btn-cta-solid:hover {
+      background: rgba(255,255,255,0.9);
+      color: #a61e3a;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .story-layout, .mission-layout { grid-template-columns: 1fr; gap: 36px; }
+      .story-imgs { grid-template-rows: 200px 160px; }
+      .mission-img img { height: 300px; }
+      .cta-banner { padding: 40px 28px; }
+    }
+    @media (max-width: 600px) {
+      .story-imgs { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .story-imgs .img-main { grid-column: 1; height: 220px; }
+      .story-imgs .img-small { height: 160px; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .offers-grid { grid-template-columns: 1fr 1fr; }
+      .cta-banner { border-radius: 18px; padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <h1>Lelani`s Beauty Boutique</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Lelani`s Beauty Boutique</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="cart.html">Your Cart</a></li>
+            <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ── Hero ── -->
+  <div class="about-hero">
+    <h2>About Us</h2>
+    <p>A Gaborone-based beauty boutique dedicated to helping every client look, feel, and glow with confidence.</p>
+  </div>
+
+  <!-- ══════════════
+       OUR STORY
+  ══════════════ -->
+  <section class="section-wrap">
+    <div class="container" style="max-width:1060px;">
+      <div class="story-layout">
+
+        <div class="story-text" style="animation: fadeUp 0.6s ease both;">
+          <div class="section-label">Our story</div>
+          <h2 class="section-heading">Welcome to<br><em style="font-style:italic;">Lelani's Beauty Boutique</em></h2>
+
+          <p>Welcome to our beauty and skincare platform, where we are dedicated to helping you look and feel your best. We specialise in professional facial treatments such as face scrubbing and face steaming, designed to refresh, cleanse, and rejuvenate your skin.</p>
+
+          <p>In addition to our skincare services, we also offer makeup services tailored to different styles and price ranges — making it easy for everyone to find something that suits their needs and budget, from a soft natural look to full bridal glam.</p>
+
+          <p>Our boutique also provides a convenient online shopping experience, where you can purchase a variety of beauty products including lipsticks, eyeshadows, and facial care products. Each product is carefully selected to ensure quality and effectiveness.</p>
+
+          <p>Whether you're looking for the perfect product, a professional service, or inspiration for your beauty routine — Lelani's Beauty Boutique is here to help you glow with confidence.</p>
+
+          <a href="services.html" style="
+            font-family:'Lato',sans-serif; font-weight:700; font-size:0.8rem;
+            letter-spacing:0.1em; text-transform:uppercase; padding:13px 30px;
+            border-radius:50px; border:none; cursor:pointer; text-decoration:none;
+            display:inline-block;
+            background:linear-gradient(135deg,#fb6f92,#c9304e); color:#fff;
+            box-shadow:0 4px 16px rgba(200,48,78,0.28);
+            transition:all 0.22s ease;">
+            Book a Service
+          </a>
+        </div>
+
+        <!-- Image collage -->
+        <div class="story-imgs">
+          <div class="img-main">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop" alt="Beauty treatment in progress">
+          </div>
+          <div class="img-small">
+            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&auto=format&fit=crop" alt="Beauty products">
+          </div>
+          <div class="img-small">
+            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&auto=format&fit=crop" alt="Makeup palette">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════
+       WHAT WE DO
+  ══════════════ -->
+  <section class="section-wrap alt">
+    <div class="container" style="max-width:1060px;">
+      <div class="section-label">Everything in one place</div>
+      <h2 class="section-heading">What We Offer</h2>
+      <p style="font-family:'Lato',sans-serif; font-size:0.95rem; color:#c8a4a4; margin-bottom:36px; max-width:500px;">
+        From professional skin treatments to curated beauty products — all available in Gaborone.
+      </p>
+
+      <div class="offers-grid">
+        <a href="services.html" class="offer-pill">
+          <div class="icon">💆</div>
+          <div class="name">Face Scrubbing</div>
+        </a>
+        <a href="services.html" class="offer-pill">
+          <div class="icon">🌿</div>
+          <div class="name">Face Steaming</div>
+        </a>
+        <a href="services.html" class="offer-pill">
+          <div class="icon">✨</div>
+          <div class="name">Natural Glam Makeup</div>
+        </a>
+        <a href="services.html" class="offer-pill">
+          <div class="icon">💄</div>
+          <div class="name">Full Glam Makeup</div>
+        </a>
+        <a href="services.html" class="offer-pill">
+          <div class="icon">💍</div>
+          <div class="name">Wedding Glam Makeup</div>
+        </a>
+        <a href="products.html" class="offer-pill">
+          <div class="icon">💋</div>
+          <div class="name">Lipsticks</div>
+        </a>
+        <a href="products.html" class="offer-pill">
+          <div class="icon">🪞</div>
+          <div class="name">Skin Care Products</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════
+       OUR VALUES
+  ══════════════ -->
+  <section class="section-wrap">
+    <div class="container" style="max-width:1060px;">
+      <div class="section-label">What we stand for</div>
+      <h2 class="section-heading">Our Values</h2>
+      <p style="font-family:'Lato',sans-serif; font-size:0.95rem; color:#c8a4a4; margin-bottom:40px; max-width:480px;">
+        Everything we do is rooted in these four commitments to our clients.
+      </p>
+
+      <div class="values-grid">
+
+        <div class="value-card">
+          <div class="value-icon">🌸</div>
+          <div class="value-title">Confidence</div>
+          <div class="value-desc">We believe beauty is about how you feel. Every service and product we offer is chosen to help you feel your most confident and radiant self.</div>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">⭐</div>
+          <div class="value-title">Quality</div>
+          <div class="value-desc">We carefully select only quality products that suit different skin types and tones, ensuring that everyone can find something that truly works for them.</div>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <div class="value-title">Customer Care</div>
+          <div class="value-desc">Our clients are at the heart of everything we do. We are committed to excellent customer service and creating a comfortable experience for all.</div>
+        </div>
+
+        <div class="value-card">
+          <div class="value-icon">💸</div>
+          <div class="value-title">Affordability</div>
+          <div class="value-desc">Great beauty should be accessible to everyone. We keep our pricing fair and in Pula, with a 30% discount for all new clients walking through our door.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════
+       MISSION
+  ══════════════ -->
+  <section class="section-wrap alt">
+    <div class="container" style="max-width:1060px;">
+      <div class="mission-layout">
+
+        <div class="mission-img">
+          <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&auto=format&fit=crop" alt="Professional beauty service">
+        </div>
+
+        <div class="mission-text">
+          <div class="section-label">Why we exist</div>
+          <h2 class="section-heading">Our Mission 🌟</h2>
+
+          <p>Our mission is to promote confidence and self-care by offering reliable beauty services and products all in one place. We are committed to providing excellent customer service and creating a comfortable experience for every single client.</p>
+
+          <div class="mission-quote">
+            <p>"Our goal is to create a welcoming space where every client feels comfortable, valued, and beautiful."</p>
+          </div>
+
+          <p>Whether you're shopping for the perfect makeup product or treating yourself to a refreshing facial, we are here to give you a personalised and enjoyable experience — every time you visit.</p>
+
+          <p>We carefully select our products to suit different skin types and tones, ensuring that everyone can find something that works for them. At the heart of our boutique is a passion for beauty and a commitment to helping you feel confident every day.</p>
+
+          <a href="contact.html" style="
+            font-family:'Lato',sans-serif; font-weight:700; font-size:0.8rem;
+            letter-spacing:0.1em; text-transform:uppercase; padding:13px 30px;
+            border-radius:50px; border:none; cursor:pointer; text-decoration:none;
+            display:inline-block;
+            background:linear-gradient(135deg,#fb6f92,#c9304e); color:#fff;
+            box-shadow:0 4px 16px rgba(200,48,78,0.28);
+            transition:all 0.22s ease; margin-top:8px;">
+            Get in Touch
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════
+       CTA BANNER
+  ══════════════ -->
+  <section class="section-wrap">
+    <div class="container" style="max-width:960px;">
+      <div class="cta-banner">
+        <h2>Experience the Boutique</h2>
+        <p>Ready to treat yourself? Book a professional service or browse our curated product collection today.</p>
+        <a href="services.html" class="btn-cta-white">Book a Service</a>
+        <a href="products.html" class="btn-cta-white btn-cta-solid">Shop Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>&copy; 2026 Lelani`s Beauty Boutique. All rights reserved. &nbsp;|&nbsp;
+      <a href="tel:+26775045962" style="color:rgba(255,255,255,0.65); text-decoration:none;">+267 750 45962</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:lelanibeautyboutique@gmail.com" style="color:rgba(255,255,255,0.65); text-decoration:none;">lelanibeautyboutique@gmail.com</a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>     
     
-    <body>
-        
-        <header>
-            
-            <h1>About Us</h1>
-            
-            <nav>
-                
-                <a href="index.html">Home</a>
-                <a href="products.html">Products</a>
-                <a href="services.html">Services</a>
-                <a href="cart.html">Your Cart</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-                
-            </nav>
-            
-        </header>
-
-        <main>
-
-            <h2>Lelani`s Beauty Boutique</h2>
-            
-           <p>Welcome to our beauty and skincare platform, where we are dedicated to helping you look and feel your best. We specialize in professional facial treatments such as face scrubbing and face steaming, designed to refresh, cleanse, and re juvenate your skin</p>
-            <p>In addition to our skincare services, we also offer makeup services tailored to different styles and price ranges, making it easy for everyone to find something that suits their needs and budget.</p>
-            <p>Our website also provides a convenient online shopping experience, where you can purchase a variety of beauty products, including lipsticks, eyeshadows, and facial care products, Each product is carefully selected to ensure quality and effectiveness.</p>
-            <p>Whether you're looking for the perfect beauty, profesional services, or inspiration for your beauty routine, our boutique is here to help you glow with confidence.</p>
-            <p>We carefully select our products to suit different skin types and tones, ensuring that everyone can find something that works for them. At the heart of our boutique is a passion for beauty and a commitment to helping you feel confident every day.</p>
-            
-            <h2>Our Mission🌟</h2>
-            <p>Our mission is to promote confidence and self-care by offering reliable beauty services and products in one place. We are committed to providing excellent customer services and creating a comfortable experience for all our clients.</p>
-            <p>Our goal is to create a welcoming space where every client feels comfortable, valued, and beautiful.Whether you're shopping for the perfect makeup or treating yourself to a refreshing facial, we are here to give you a personalized and enjoyable experience.</p>
-            
-            
-        </main>
-
-        <footer>
-            
-            <p>&copy; 2026 Lelani`s Beauty Boutique</p>
-            
-        </footer>
-        
-    </body>
