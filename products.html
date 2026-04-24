@@ -1,89 +1,579 @@
 <!DOCTYPE html>
-
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Products – Lelani's Beauty Boutique</title>
 
-    <head>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Your main stylesheet -->
+  <link rel="stylesheet" href="style.css">
 
-        <meta charset="UTF-8">
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ── Page-specific styles ── */
 
-        <title>About Us</title>
-        
-    </head>
-    
-    <body>
-        
-        <header>
-            
-            <h1>Our Products</h1>
-            
-            <nav>
-                
-                <a href="index.html">Home</a>
-                <a href="products.html">Products</a>
-                <a href="services.html">Services</a>
-                <a href="cart.html">Your Cart</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-                
-            </nav>
-            
-        </header>
+    /* Subtle rose-tinted page background */
+    body {
+      background: linear-gradient(160deg, #fff8f9 0%, #fff0f3 40%, #fdf6f0 100%);
+      min-height: 100vh;
+    }
 
-        <main>
+    /* ── Hero banner ── */
+    .products-hero {
+      background: linear-gradient(135deg, #821830 0%, #c9304e 60%, #fb6f92 100%);
+      padding: 52px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .products-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .products-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .products-hero h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #fff;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .products-hero p {
+      color: rgba(255,255,255,0.82);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto 0;
+      position: relative;
+    }
 
-          <h2>Lelani`s Beauty Products</h2>
+    /* ── Filter pills ── */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 28px 16px 12px;
+    }
+    .filter-pill {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 50px;
+      border: 1.5px solid #ffc2d1;
+      background: #fff;
+      color: #c9304e;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-pill:hover,
+    .filter-pill.active {
+      background: linear-gradient(135deg, #e8516d, #c9304e);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(200,48,78,0.28);
+    }
 
-<table border="1">
+    /* ── Product grid ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 28px;
+      padding: 20px 0 48px;
+    }
 
-<tr>
-     <th>Product</th>
-   
-</tr>
+    /* ── Product card ── */
+    .product-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #ffe0e8;
+      box-shadow: 0 4px 16px rgba(168,50,80,0.07);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp 0.5s ease both;
+    }
+    .product-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 16px 40px rgba(168,50,80,0.15);
+    }
 
-  <tr>
-    <td>Lipstick</td>
-    <td>Makeup</td>
-    <td>Long Lastingmatte lipstick</td>
-    <td>P120</td>
-  </tr>
+    /* Staggered load animation */
+    .product-card:nth-child(1) { animation-delay: 0.05s; }
+    .product-card:nth-child(2) { animation-delay: 0.10s; }
+    .product-card:nth-child(3) { animation-delay: 0.15s; }
+    .product-card:nth-child(4) { animation-delay: 0.20s; }
+    .product-card:nth-child(5) { animation-delay: 0.25s; }
+    .product-card:nth-child(6) { animation-delay: 0.30s; }
 
-  <tr>
-    <td>Eyeshadow Palette</td>
-    <td>Makeup</td>
-    <td>12 colour professional palette</td>
-    <td>P250</td>
-  </tr>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-  <tr>
-    <td>Foundation</td>
-    <td>Makeup</td>
-    <td>Full coverage liquid foundation</td>
-    <td>P220</td>
-  </tr>
+    /* Image wrapper */
+    .product-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: #fff0f3;
+    }
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+    .product-card:hover .product-img-wrap img {
+      transform: scale(1.06);
+    }
 
-  <tr>
-    <td>Moisturizer</td>
-    <td>Skin care</td>
-    <td>Hydrating daily face moisturizer</td>
-    <td>P180</td>
-  </tr>
+    /* Category badge on image */
+    .product-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(255,255,255,0.92);
+      color: #c9304e;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      backdrop-filter: blur(4px);
+      border: 1px solid #ffc2d1;
+    }
 
-  <tr>
-    <td>Face Scrub</td>
-    <td>Skin care</td>
-    <td>Gentle exfoliating scrub</td>
-    <td>P180</td>
-  </tr>
+    /* Card body */
+    .product-info {
+      padding: 20px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .product-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #821830;
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .product-desc {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      color: #7a5c5c;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .product-price {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: #c9304e;
+    }
+    .product-price span {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #c8a4a4;
+      margin-right: 2px;
+    }
 
-  <tr>
-    <td>Makeup remover</td>
-    <td>Skin care</td>
-    <td>Hydrating cleanser</td>
-    <td>P100</td>
-  </tr>
+    /* Add to Cart button */
+    .btn-cart {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fb6f92, #c9304e);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(200,48,78,0.22);
+      transition: all 0.22s ease;
+      white-space: nowrap;
+    }
+    .btn-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(200,48,78,0.35);
+      background: linear-gradient(135deg, #e8516d, #a61e3a);
+    }
+    .btn-cart.added {
+      background: linear-gradient(135deg, #3B6D11, #27500A);
+      box-shadow: 0 4px 14px rgba(59,109,17,0.25);
+    }
 
-</table>
+    /* ── Cart counter toast ── */
+    .cart-toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #fff;
+      border: 1px solid #ffc2d1;
+      border-radius: 16px;
+      padding: 14px 22px;
+      box-shadow: 0 8px 32px rgba(168,50,80,0.18);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      color: #821830;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 9999;
+    }
+    .cart-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .cart-icon {
+      font-size: 1.2rem;
+    }
 
-</main>
+    /* ── Payment note ── */
+    .payment-note {
+      background: linear-gradient(135deg, #fff0f3, #ffedf0);
+      border: 1px solid #ffc2d1;
+      border-left: 4px solid #e8516d;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 2rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      color: #7a5c5c;
+    }
+    .payment-note strong {
+      color: #821830;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    /* ── Cart summary bar ── */
+    .cart-bar {
+      position: sticky;
+      bottom: 0;
+      background: linear-gradient(135deg, #821830, #c9304e);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 -4px 20px rgba(130,24,48,0.25);
+      z-index: 100;
+      transform: translateY(100%);
+      transition: transform 0.35s ease;
+    }
+    .cart-bar.visible {
+      transform: translateY(0);
+    }
+    .cart-bar-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1rem;
+      font-style: italic;
+    }
+    .cart-bar-total {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .btn-checkout {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 2px solid rgba(255,255,255,0.7);
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-checkout:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 576px) {
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .product-img-wrap { height: 160px; }
+      .product-info { padding: 14px 14px 16px; }
+      .product-name { font-size: 1rem; }
+      .product-price { font-size: 1.1rem; }
+      .btn-cart { padding: 8px 14px; font-size: 0.7rem; }
+    }
+    @media (max-width: 400px) {
+      .products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <h1>Lelani`s Beauty Boutique</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Lelani`s Beauty Boutique</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" href="products.html">Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="cart.html">Your Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ── Products Hero ── -->
+  <div class="products-hero">
+    <h2>Our Products</h2>
+    <p>Handpicked beauty essentials to help you glow with confidence every day.</p>
+  </div>
+
+  <!-- ── Main Content ── -->
+  <main class="container" style="max-width: 1100px;">
+
+    <!-- Filter pills -->
+    <div class="filter-bar">
+      <button class="filter-pill active" onclick="filterProducts('all', this)">All Products</button>
+      <button class="filter-pill" onclick="filterProducts('makeup', this)">Makeup</button>
+      <button class="filter-pill" onclick="filterProducts('skincare', this)">Skin Care</button>
+    </div>
+
+    <!-- Payment notice -->
+    <div class="payment-note">
+      <strong>&#128338; Payment Information</strong>
+      Payment is accepted at delivery or collection at the Lelani's Beauty Boutique station. No online payment required.
+    </div>
+
+    <!-- Product Cards Grid -->
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Lipstick -->
+      <div class="product-card" data-category="makeup">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1586495777744-4e6232bf2f9b?w=600&auto=format&fit=crop" alt="Long Lasting Matte Lipstick" loading="lazy">
+          <span class="product-badge">Makeup</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Matte Lipstick</div>
+          <div class="product-desc">Long-lasting matte formula that keeps your lips bold and beautiful all day.</div>
+          <div class="product-footer">
+            <div class="product-price"><span>P</span>70</div>
+            <button class="btn-cart" onclick="addToCart(this, 'Matte Lipstick', 70)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Eyeshadow Palette -->
+      <div class="product-card" data-category="makeup">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&auto=format&fit=crop" alt="Eyeshadow Palette" loading="lazy">
+          <span class="product-badge">Makeup</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Eyeshadow Palette</div>
+          <div class="product-desc">12-colour professional palette with blendable pigments for every look.</div>
+          <div class="product-footer">
+            <div class="product-price"><span>P</span>250</div>
+            <button class="btn-cart" onclick="addToCart(this, 'Eyeshadow Palette', 250)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foundation -->
+      <div class="product-card" data-category="makeup">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1631214499429-c3eaff5f3168?w=600&auto=format&fit=crop" alt="Full Coverage Foundation" loading="lazy">
+          <span class="product-badge">Makeup</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Foundation</div>
+          <div class="product-desc">Full-coverage liquid foundation for a flawless, natural finish all day long.</div>
+          <div class="product-footer">
+            <div class="product-price"><span>P</span>220</div>
+            <button class="btn-cart" onclick="addToCart(this, 'Foundation', 220)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Moisturizer -->
+      <div class="product-card" data-category="skincare">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&auto=format&fit=crop" alt="Hydrating Moisturizer" loading="lazy">
+          <span class="product-badge">Skin Care</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Moisturizer</div>
+          <div class="product-desc">Hydrating daily face moisturizer that keeps your skin soft and nourished.</div>
+          <div class="product-footer">
+            <div class="product-price"><span>P</span>180</div>
+            <button class="btn-cart" onclick="addToCart(this, 'Moisturizer', 180)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Face Scrub -->
+      <div class="product-card" data-category="skincare">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1571782742078-43a7b61f2491?w=600&auto=format&fit=crop" alt="Gentle Face Scrub" loading="lazy">
+          <span class="product-badge">Skin Care</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Face Scrub</div>
+          <div class="product-desc">Gentle exfoliating scrub that removes dead skin cells and leaves skin glowing.</div>
+          <div class="product-footer">
+            <div class="product-price"><span>P</span>180</div>
+            <button class="btn-cart" onclick="addToCart(this, 'Face Scrub', 180)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Makeup Remover -->
+      <div class="product-card" data-category="skincare">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop" alt="Hydrating Makeup Remover" loading="lazy">
+          <span class="product-badge">Skin Care</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Makeup Remover</div>
+          <div class="product-desc">Gentle hydrating cleanser that removes all makeup without drying your skin.</div>
+          <div class="product-footer">
+            <div class="product-price"><span>P</span>100</div>
+            <button class="btn-cart" onclick="addToCart(this, 'Makeup Remover', 100)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /products-grid -->
+  </main>
+
+  <!-- ── Sticky Cart Bar ── -->
+  <div class="cart-bar" id="cartBar">
+    <div>
+      <div class="cart-bar-text" id="cartBarText">0 items in your cart</div>
+    </div>
+    <div class="cart-bar-total" id="cartBarTotal">P0</div>
+    <a href="cart.html"><button class="btn-checkout">View Cart</button></a>
+  </div>
+
+  <!-- ── Toast notification ── -->
+  <div class="cart-toast" id="cartToast">
+    <span class="cart-icon">&#10003;</span>
+    <span id="toastMsg">Added to cart!</span>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>&copy; 2026 Lelani`s Beauty Boutique. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  <script>
+    // ── Cart state ──
+    let cartItems = [];
+    let cartTotal = 0;
+    let toastTimer = null;
+
+    // ── Add to Cart ──
+    function addToCart(btn, name, price) {
+      cartItems.push({ name, price });
+      cartTotal += price;
+
+      // Button feedback
+      btn.textContent = '✓ Added';
+      btn.classList.add('added');
+      setTimeout(() => {
+        btn.textContent = 'Add to Cart';
+        btn.classList.remove('added');
+      }, 1800);
+
+      // Update cart bar
+      const bar = document.getElementById('cartBar');
+      const count = cartItems.length;
+      document.getElementById('cartBarText').textContent =
+        count === 1 ? '1 item in your cart' : count + ' items in your cart';
+      document.getElementById('cartBarTotal').textContent = 'P' + cartTotal;
+      bar.classList.add('visible');
+
+      // Show toast
+      showToast(name + ' added to cart!');
+    }
+
+    // ── Toast ──
+    function showToast(msg) {
+      const toast = document.getElementById('cartToast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+
+    // ── Filter ──
+    function filterProducts(category, pill) {
+      // Update active pill
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      // Show/hide cards
+      document.querySelectorAll('.product-card').forEach(card => {
+        const match = category === 'all' || card.dataset.category === category;
+        card.style.display = match ? 'flex' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
